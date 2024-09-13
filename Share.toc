@@ -1,0 +1,17 @@
+## Interface: 110002
+## Version: 1.0.0
+## Title: Share
+## Notes: Addon Share
+## Author: Maevy
+## IconTexture: Interface\AddOns\Share\Icons\Share
+## AddonCompartmentFunc: Share_OnAddonCompartmentClick
+## OptionalDeps: Ace3, LibDBIcon-1.0, WeakAuras, AceGUI-3.0, LibStub
+
+ 
+# Ace3
+Libs\load_libs.xml
+
+main.lua
+bouton.lua
+weakaura.lua
+verif.lua
