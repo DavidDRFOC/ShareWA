@@ -28,18 +28,23 @@ function MyAddon:OnInitialize()
     button:SetPoint("TOP", MyAddonMainFrame, "TOP", 0, -100)
     button:SetText("Send")
     -- Modifiez la fonction du bouton "Send"
-button:SetScript("OnClick", function(self)
-    local editBox = MonAddonEditBox
-    local text = editBox:GetText()
-    -- Stockage du texte dans la base de données
-    db.profile.montext = text
-
-    -- Envoyer le texte saisi aux autres joueurs de l'addon via AceComm
-    MyAddon:SendCommMessage("MyAddonChannel", text, "GUILD")
-
-    -- Envoyer l'image à tout le monde
-    MyAddon:SendImageToEveryone()
-end)
+    button:SetScript("OnClick", function(self)
+        local editBox = MonAddonEditBox
+        local text = editBox:GetText()  -- Récupère le texte de la chatbox
+    
+        -- Vérifie si le texte n'est pas vide
+        if text and text ~= "" then
+            -- Stocke le texte dans la base de données (si besoin)
+            db.profile.montext = text
+    
+            -- Envoie le texte saisi aux autres joueurs de l'addon via AceComm
+            MyAddon:SendCommMessage("MyAddonChannel", text, "RAID")  -- Envoie le WeakAura saisi
+    
+            -- Envoie l'image à tout le monde
+            MyAddon:SendImageToEveryone()
+        end
+    end)
+    
 
     local editBox = CreateFrame("EditBox", "MonAddonEditBox", MyAddonMainFrame, "InputBoxTemplate")
     editBox:SetPoint("TOP", MyAddonMainFrame, "TOP", 0, -50)
@@ -148,6 +153,13 @@ optionsButton:SetScript("OnClick", ShowOptionsPanel)
 
 function MyAddon:OnCommReceived(prefix, message, distribution, sender)
     if prefix == "MyAddonChannel" then
+        local success, err = pcall(function()
+            WeakAuras.Import(message)  -- Essaye d'importer le WeakAura reçu
+        end)
+
+        if not success then
+            print("Erreur lors de l'importation : " .. err)  -- Affiche l'erreur
+        end
         if message:find("^IMAGE:") then
             local imagePath = message:sub(7) -- Extrait le chemin de l'image du message
 
