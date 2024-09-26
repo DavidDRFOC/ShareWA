@@ -67,18 +67,6 @@ function MyAddon:SendImageToEveryone()
     local imagePath = imagePaths[math.random(1, #imagePaths)]
     MyAddon:SendCommMessage("MyAddonChannel", "IMAGE:" .. imagePath, "GUILD")
 end
-  
-    -- Création du bouton pour importer le texte
-    local buttonimport = CreateFrame("Button", "MyAddonWagoButton4", MyAddonMainFrame, "UIPanelButtonTemplate")
-    buttonimport:SetPoint("CENTER", MyAddonMainFrame, "CENTER", 0, -120)
-    buttonimport:SetSize(150, 32)
-    buttonimport:SetText("Live Update WA")
-    -- Modifiez la fonction du bouton "Live Update WA"
-    buttonimport:SetScript("OnClick", function(self)
-        -- Importer le texte saisi dans WeakAuras
-        local text = db.profile.montext
-        WeakAuras.Import(text)
-    end)
 
 -- PANNEAU OPTIONS
 local MyAddonSettings = { ShowButton = true, disablePopup = false }
@@ -185,7 +173,3 @@ function MyAddon:OnCommReceived(prefix, message, distribution, sender)
         end
     end
 end
-
-local title = MyAddonMainFrame:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
-title:SetPoint("CENTER", 0, -85)
-title:SetText("Live update\r|cffff0000(Use it only if someone sent a WeakAura)|r")
